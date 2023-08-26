@@ -347,15 +347,15 @@ function drawClouds(mMatrix){
 
     //left cloud
     pushMatrix(matrixStack,copy);
-    copy = mat4.translate(copy, [-3,1.2,0]);
-    copy = mat4.scale(copy,[3,2,1]);
+    copy = mat4.translate(copy, [-3.9,1,0]);
+    copy = mat4.scale(copy,[3.8,2,1]);
     drawCircle(cloudColor, copy);
     copy = popMatrix(matrixStack);
 
     //right cloud
     pushMatrix(matrixStack,copy);
-    copy = mat4.translate(copy, [2.9,0.8,0]);
-    copy = mat4.scale(copy,[2,1.2,1]);
+    copy = mat4.translate(copy, [2.8,0.6,0]);
+    copy = mat4.scale(copy,[1.9,1.2,1]);
     drawCircle(cloudColor, copy);
     copy = popMatrix(matrixStack);
 }
@@ -409,7 +409,7 @@ function drawTree(mMatrix){
     //draw stem
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,-0.5,0]);
-    copy = mat4.scale(copy, [0.1,1,1]);
+    copy = mat4.scale(copy, [0.12,1,1]);
     drawSquare(stemColor,copy);
     copy = popMatrix(matrixStack);
 
@@ -417,11 +417,11 @@ function drawTree(mMatrix){
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,0.4,0]);
     drawTriangle(darkGreen, copy);
-    copy = mat4.translate(copy, [0,0.1,0]);
+    copy = mat4.translate(copy, [0,0.14,0]);
     copy = mat4.scale(copy, [1.12,1,1]);
     drawTriangle(midGreen, copy);
-    copy = mat4.translate(copy, [0,0.1,0]);
-    copy = mat4.scale(copy, [1.12,1,1]);
+    copy = mat4.translate(copy, [0,0.17,0]);
+    copy = mat4.scale(copy, [1.12,1.1,1]);
     drawTriangle(lightGreen, copy);
     copy = popMatrix(matrixStack);
 } 
@@ -436,17 +436,10 @@ function drawWindMill(mMatrix){
     centreColor = [0,0,0,1];
     stemColor = [50/255,50/255,50/255,1];
 
-    // draw centre
-    pushMatrix(matrixStack,copy);
-    copy = mat4.translate(copy, [0,0.3,0]);
-    copy = mat4.scale(copy, [0.05,0.05,0.05]);
-    drawCircle(centreColor, copy);
-    copy = popMatrix(matrixStack);
-
     //draw stem
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,-1,0]);
-    copy = mat4.scale(copy, [0.05,2.6,1]);
+    copy = mat4.scale(copy, [0.15,2.5,1]);
     drawSquare(stemColor, copy);
     copy = popMatrix(matrixStack);
 
@@ -455,8 +448,8 @@ function drawWindMill(mMatrix){
     copy = mat4.translate(copy, [0,0.3,0]);
     copy = mat4.rotate(copy, degToRad(0), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
-    copy = mat4.scale(copy, [0.1,1.1,1]);
-    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    copy = mat4.scale(copy, [0.3,1.2,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.2,0]);
     drawTriangle(wingColor, copy);
     copy = popMatrix(matrixStack);
 
@@ -464,8 +457,8 @@ function drawWindMill(mMatrix){
     copy = mat4.translate(copy, [0,0.3,0]);
     copy = mat4.rotate(copy, degToRad(90), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
-    copy = mat4.scale(copy, [0.1,1.1,1]);
-    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    copy = mat4.scale(copy, [0.3,1.2,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.2,0]);
     drawTriangle(wingColor, copy);
     copy = popMatrix(matrixStack);
 
@@ -473,8 +466,8 @@ function drawWindMill(mMatrix){
     copy = mat4.translate(copy, [0,0.3,0]);
     copy = mat4.rotate(copy, degToRad(-90), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
-    copy = mat4.scale(copy, [0.1,1.1,1]);
-    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    copy = mat4.scale(copy, [0.3,1.2,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.2,0]);
     drawTriangle(wingColor, copy);
     copy = popMatrix(matrixStack);
 
@@ -482,9 +475,16 @@ function drawWindMill(mMatrix){
     copy = mat4.translate(copy, [0,0.3,0]);
     copy = mat4.rotate(copy, degToRad(180), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
-    copy = mat4.scale(copy, [0.1,1.1,1]);
-    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    copy = mat4.scale(copy, [0.3,1.2,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.2,0]);
     drawTriangle(wingColor, copy);
+    copy = popMatrix(matrixStack);
+
+    // draw centre
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.3,0]);
+    copy = mat4.scale(copy, [0.12,0.12,0.12]);
+    drawCircle(centreColor, copy);
     copy = popMatrix(matrixStack);
 }
 ////////////////////////////////////////////////////////////////////////
@@ -534,8 +534,9 @@ function drawBoat(mMatrix){
 
     //draw sail
     pushMatrix(matrixStack,copy);
-    copy = mat4.translate(copy, [0.52,0.6,0]);
+    copy = mat4.translate(copy, [0.43,0.6,0]);
     copy = mat4.rotate(copy, degToRad(-90), [0, 0, 1]);
+    copy = mat4.scale(copy, [1,0.8,1]);
     drawTriangle(sailColor, copy);
     copy = popMatrix(matrixStack);
 }
@@ -575,7 +576,7 @@ function drawBushes(mMatrix){
 function drawHouse(mMatrix){
     copy = mat4.create(mMatrix);
 
-    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+    copy = mat4.scale(copy,[0.45,0.45,0.45]);
 
     roofColor = [253/255,76/255,0,1];
     wallColor = [227/255,227/255,227/255,1];
@@ -601,15 +602,15 @@ function drawHouse(mMatrix){
     //draw window
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0.6,0.1,0]);
-    copy = mat4.scale(copy, [0.2,0.2,1]);
+    copy = mat4.scale(copy, [0.3,0.3,1]);
     drawSquare(windowColor,copy);
-    copy = mat4.translate(copy, [-6,0,0]);
+    copy = mat4.translate(copy, [-4,0,0]);
     drawSquare(windowColor,copy);
     copy = popMatrix(matrixStack);
 
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,-0.2,0]);
-    copy = mat4.scale(copy, [0.2,0.6,1]);
+    copy = mat4.scale(copy, [0.3,0.6,1]);
     drawSquare(windowColor,copy);
     copy = popMatrix(matrixStack);
 }
@@ -756,11 +757,163 @@ function drawScene() {
 
         //draw mountains
         pushMatrix(matrixStack, mMatrix);
-        mMatrix = mat4.scale(mMatrix, [0.7,0.7,1]);
-        mMatrix = mat4.translate(mMatrix, [-0.9,0.15,0]);
+        mMatrix = mat4.scale(mMatrix, [0.75,0.5,1]);
+        mMatrix = mat4.translate(mMatrix, [-0.84,0.15,0]);
         drawMountains1(mMatrix);
         mMatrix = popMatrix(matrixStack);
 
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.6,0.4,1]);
+        mMatrix = mat4.translate(mMatrix, [1.3,0.15,0]);
+        drawMountains2(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [1,0.85,1]);
+        mMatrix = mat4.translate(mMatrix, [0,0.1,0]);
+        drawMountains1(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw greenland
+        pushMatrix(matrixStack, mMatrix);
+        // mMatrix = mat4.scale(mMatrix, [0.6,0.6,1]);
+        // mMatrix = mat4.translate(mMatrix, [-1.1,0.15,0]);
+        drawGreenland(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw River
+        pushMatrix(matrixStack, mMatrix);
+        // mMatrix = mat4.scale(mMatrix, [0.6,0.6,1]);
+        mMatrix = mat4.translate(mMatrix, [0,-0.18,0]);
+        drawRiver(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw Sun
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.22,0.22,1]);
+        mMatrix = mat4.translate(mMatrix, [-2.9,3.6,0]);
+        drawSun(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw clouds
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.29,0.3,1]);
+        mMatrix = mat4.translate(mMatrix, [-2,1.55,0]);
+        drawClouds(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw trees
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.7,0.57,1]);
+        mMatrix = mat4.translate(mMatrix, [1.1,0.48,0]);
+        drawTree(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.8,0.65,1]);
+        mMatrix = mat4.translate(mMatrix, [0.6,0.48,0]);
+        drawTree(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.55,0.5,1]);
+        mMatrix = mat4.translate(mMatrix, [0.45,0.48,0]);
+        drawTree(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw birds
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.085,0.085,1]);
+        mMatrix = mat4.translate(mMatrix, [1.8,7.5,0]);
+        drawBirds(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.05,0.05,1]);
+        mMatrix = mat4.translate(mMatrix, [-3,13.8,0]);
+        drawBirds(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.05,0.05,1]);
+        mMatrix = mat4.translate(mMatrix, [6.5,16,0]);
+        drawBirds(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.03,0.04,1]);
+        mMatrix = mat4.translate(mMatrix, [1,20,0]);
+        drawBirds(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.02,0.03,1]);
+        mMatrix = mat4.translate(mMatrix, [6.5,28,0]);
+        drawBirds(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        // draw boat
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.4,0.4,1]);
+        mMatrix = mat4.translate(mMatrix, [-0.9,-0.38,0]);
+        drawBoat(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw bushes
+        //bottom bush
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.4,0.4,1]);
+        mMatrix = mat4.translate(mMatrix, [-0.6,-2.63,0]);
+        drawBushes(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //right bush
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.3,0.3,1]);
+        mMatrix = mat4.translate(mMatrix, [3.5,-1.7,0]);
+        drawBushes(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //house right bush
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.22,0.22,1]);
+        mMatrix = mat4.translate(mMatrix, [-1.27,-2.74,0]);
+        drawBushes(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //house left bush
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.17,0.17,1]);
+        mMatrix = mat4.translate(mMatrix, [-5.1,-3.6,0]);
+        drawBushes(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw windMill
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.45,0.45,1]);
+        mMatrix = mat4.translate(mMatrix, [1.5,-0.12,0]);
+        drawWindMill(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.45,0.45,1]);
+        mMatrix = mat4.translate(mMatrix, [-1,-0.12,0]);
+        drawWindMill(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw house
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.5,0.5,1]);
+        mMatrix = mat4.translate(mMatrix, [-1.2,-1.14,0]);
+        drawHouse(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        //draw car
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.45,0.42,1]);
+        mMatrix = mat4.translate(mMatrix, [-1.2,-1.85,0]);
+        drawCar(mMatrix);
+        mMatrix = popMatrix(matrixStack);
         // //draw triangle
         // pushMatrix(matrixStack, mMatrix);
         // mMatrix = mat4.translate(mMatrix, [-0.5, 0.0, 0.0]);
