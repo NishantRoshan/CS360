@@ -1,8 +1,8 @@
 var gl;
 var color;
 var animation;
-var degree0 = 0;
-var degree1 = 0;
+var windMilldegree1 = 0;
+var windMilldegree2 = 0;
 var matrixStack = [];
 
 // mMatrix is called the model matrix, transforms objects
@@ -262,6 +262,316 @@ function drawCircle(color, mMatrix){
 }
 ////////////////////////////////////////////////////////////////////////
 
+function drawSun(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    sunColor = [254/255,228/255,4/255,1];
+
+    //draw sun
+    drawCircle(sunColor, copy);
+
+    //draw rays
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy, [0.05,3,1]);
+    drawSquare(sunColor, copy);
+    copy = popMatrix(matrixStack);
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(45), [0, 0, 1]);
+    copy = mat4.scale(copy, [0.05,3,1]);
+    drawSquare(sunColor, copy);
+    copy = popMatrix(matrixStack);
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(90), [0, 0, 1]);
+    copy = mat4.scale(copy, [0.05,3,1]);
+    drawSquare(sunColor, copy);
+    copy = popMatrix(matrixStack);
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(135), [0, 0, 1]);
+    copy = mat4.scale(copy, [0.05,3,1]);
+    drawSquare(sunColor, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawBirds(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    birdColor = [0,0,0,1];
+
+    //draw body
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy,[0.2,0.25,1]);
+    drawSquare(birdColor,copy);
+    copy = popMatrix(matrixStack);
+
+    //draw wings
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(10), [0, 0, 1]);
+    copy = mat4.translate(copy, [1,0.2,0]);
+    copy = mat4.scale(copy,[2,0.3,1]);
+    drawTriangle(birdColor,copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(-10), [0, 0, 1]);
+    copy = mat4.translate(copy, [-1,0.2,0]);
+    copy = mat4.scale(copy,[2,0.3,1]);
+    drawTriangle(birdColor,copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawClouds(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.2,0.2,0.2]);
+
+    cloudColor = [1,1,1,1];
+
+    //center clouds
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(7), [0, 0, 1]);
+    copy = mat4.scale(copy,[2,1,1]);
+    drawCircle(cloudColor, copy);
+    copy = popMatrix(matrixStack);
+    pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(-7), [0, 0, 1]);
+    copy = mat4.translate(copy, [0,1,0]);
+    copy = mat4.scale(copy,[2,1,1]);
+    drawCircle(cloudColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //left cloud
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [-3,1.2,0]);
+    copy = mat4.scale(copy,[3,2,1]);
+    drawCircle(cloudColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //right cloud
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [2.9,0.8,0]);
+    copy = mat4.scale(copy,[2,1.2,1]);
+    drawCircle(cloudColor, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawMountains1(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    mountainLight = [150/255,120/255,81/255,1];
+    mountainDark = [129/255,90/255,64/255,1];
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy,[3,1,1]);
+    drawTriangle(mountainDark,copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.5,0]);
+    copy = mat4.rotate(copy, degToRad(7), [0, 0, 1]);
+    copy = mat4.translate(copy, [0,-0.5,0]);
+    copy = mat4.scale(copy,[3,1,1]);
+    drawTriangle(mountainLight,copy);
+    copy = popMatrix(matrixStack);
+}
+
+function drawMountains2(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    mountainLight = [150/255,120/255,81/255,1];
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy,[3,1,1]);
+    drawTriangle(mountainLight,copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawTree(mMatrix){
+    copy = mat4.create(mMatrix);
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    stemColor = [127/255,78/255,77/255,1];
+    darkGreen = [0,152/255,77/255,1];
+    midGreen = [76/255,178/255,75/255,1];
+    lightGreen = [102/255,202/255,77/255,1];
+
+    //draw stem
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,-0.5,0]);
+    copy = mat4.scale(copy, [0.1,1,1]);
+    drawSquare(stemColor,copy);
+    copy = popMatrix(matrixStack);
+
+    //draw leaves
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.4,0]);
+    drawTriangle(darkGreen, copy);
+    copy = mat4.translate(copy, [0,0.1,0]);
+    copy = mat4.scale(copy, [1.12,1,1]);
+    drawTriangle(midGreen, copy);
+    copy = mat4.translate(copy, [0,0.1,0]);
+    copy = mat4.scale(copy, [1.12,1,1]);
+    drawTriangle(lightGreen, copy);
+    copy = popMatrix(matrixStack);
+} 
+////////////////////////////////////////////////////////////////////////
+
+function drawWindMill(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    wingColor = [179/255,179/255,0,1];
+    centreColor = [0,0,0,1];
+    stemColor = [50/255,50/255,50/255,1];
+
+    // draw centre
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.3,0]);
+    copy = mat4.scale(copy, [0.05,0.05,0.05]);
+    drawCircle(centreColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw stem
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,-1,0]);
+    copy = mat4.scale(copy, [0.05,2.6,1]);
+    drawSquare(stemColor, copy);
+    copy = popMatrix(matrixStack);
+
+    // draw wings
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.3,0]);
+    copy = mat4.rotate(copy, degToRad(0), [0, 0, 1]);
+    copy = mat4.translate(copy, [0,-0.3,0]);
+    copy = mat4.scale(copy, [0.1,1.1,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    drawTriangle(wingColor, copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.3,0]);
+    copy = mat4.rotate(copy, degToRad(90), [0, 0, 1]);
+    copy = mat4.translate(copy, [0,-0.3,0]);
+    copy = mat4.scale(copy, [0.1,1.1,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    drawTriangle(wingColor, copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.3,0]);
+    copy = mat4.rotate(copy, degToRad(-90), [0, 0, 1]);
+    copy = mat4.translate(copy, [0,-0.3,0]);
+    copy = mat4.scale(copy, [0.1,1.1,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    drawTriangle(wingColor, copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.3,0]);
+    copy = mat4.rotate(copy, degToRad(180), [0, 0, 1]);
+    copy = mat4.translate(copy, [0,-0.3,0]);
+    copy = mat4.scale(copy, [0.1,1.1,1]);
+    copy = mat4.translate(copy, [0,-0.1/1.1,0]);
+    drawTriangle(wingColor, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawBoat(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    sailColor = [229/255,76/255,0,1];
+    rodColor = [0,0,0,1];
+    bodyColor = [203/255,203/255,203/255,1];
+
+    // draw body
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,-0.1,0]);
+    copy = mat4.scale(copy, [1,0.2,1]);
+    drawSquare(bodyColor, copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0.5,-0.1,0]);
+    copy = mat4.scale(copy, [0.2,0.2,1]);
+    copy = mat4.rotate(copy, degToRad(180), [0, 0, 1]);
+    drawTriangle(bodyColor, copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [-0.5,-0.1,0]);
+    copy = mat4.scale(copy, [0.2,0.2,1]);
+    copy = mat4.rotate(copy, degToRad(180), [0, 0, 1]);
+    drawTriangle(bodyColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw rod
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.6,0]);
+    copy = mat4.scale(copy, [0.05,1.2,1]);
+    drawSquare(rodColor, copy);
+    copy = popMatrix(matrixStack);
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [-0.25,0.55,0]);
+    copy = mat4.rotate(copy, degToRad(-25), [0, 0, 1]);
+    copy = mat4.scale(copy, [0.02,1.208,1]);
+    drawSquare(rodColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw sail
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0.52,0.6,0]);
+    copy = mat4.rotate(copy, degToRad(-90), [0, 0, 1]);
+    drawTriangle(sailColor, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawBushes(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.2,0.2,0.2]);
+
+    darkGreen = [0,102/255,1/255,1];
+    midGreen = [0,152/255,0,1];
+    lightGreen = [1/255,179/255,0,1];
+
+    //left bush
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [-2.5,-0.3,0]);
+    copy = mat4.scale(copy,[1.8,1.3,1]);
+    drawCircle(lightGreen, copy);
+    copy = popMatrix(matrixStack);
+
+    //right cloud
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [2.5,-0.3,0]);
+    copy = mat4.scale(copy,[1.8,1.3,1]);
+    drawCircle(darkGreen, copy);
+    copy = popMatrix(matrixStack);
+
+    //centre bush
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy,[2.4,1.7,1]);
+    drawCircle(midGreen, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
 function drawHouse(mMatrix){
     copy = mat4.create(mMatrix);
 
@@ -303,46 +613,172 @@ function drawHouse(mMatrix){
     drawSquare(windowColor,copy);
     copy = popMatrix(matrixStack);
 }
-
 ////////////////////////////////////////////////////////////////////////
+
+function drawCar(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    topColor = [203/255,103/255,76/255,1];
+    midColor = [2/255,127/255,228/255,1];
+    wheelCenterColor = [128/255,128/255,128/255,1];
+    wheelCornerColor = [0,0,0,1];
+
+    //draw top
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy, [0.8,0.8,0.8]);
+    drawSquare(topColor, copy);
+    copy = mat4.translate(copy, [0.5,0,0]);
+    drawTriangle(topColor, copy);
+    copy = mat4.translate(copy, [-1,0,0]);
+    drawTriangle(topColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw wheels
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0.5,-0.6,0]);
+    copy = mat4.scale(copy, [0.22,0.22,0.22]);
+    drawCircle(wheelCornerColor, copy);
+    copy = mat4.scale(copy, [0.8,0.8,0.8]);
+    drawCircle(wheelCenterColor, copy);
+    copy = mat4.translate(copy, [-1/(0.22*0.8),0,0]);
+    copy = mat4.scale(copy, [1.25,1.25,1.25]);
+    drawCircle(wheelCornerColor, copy);
+    copy = mat4.scale(copy, [0.8,0.8,0.8]);
+    drawCircle(wheelCenterColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw mid
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,-0.25,0]);
+    copy = mat4.scale(copy, [1.5,0.5,1]);
+    drawSquare(midColor, copy);
+    copy = mat4.translate(copy, [0.5,0,0]);
+    copy = mat4.scale(copy, [1/3,1,1]);
+    drawTriangle(midColor, copy);
+    copy = mat4.translate(copy, [-3,0,0]);
+    drawTriangle(midColor, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawRiver(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+
+    riverColor = [1/255,100/255,254/255,1];
+
+    //draw water
+    pushMatrix(matrixStack,copy);
+    copy = mat4.scale(copy, [4,0.6,1]);
+    drawSquare(riverColor, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw streaks
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,0.17,0]);
+    copy = mat4.scale(copy, [0.8,0.005,1]);
+    drawSquare([1,1,1,1], copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [-1.3,0,0]);
+    copy = mat4.scale(copy, [0.8,0.007,1]);
+    drawSquare([1,1,1,1], copy);
+    copy = popMatrix(matrixStack);
+
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [1.3,-0.22,0]);
+    copy = mat4.scale(copy, [0.8,0.006,1]);
+    drawSquare([1,1,1,1], copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawSky(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+    
+    skyColor = [102/255,203/255,1,1];
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,1,0]);
+    copy = mat4.scale(copy, [4,2,1]);
+    drawSquare(skyColor, copy);
+    copy = popMatrix(matrixStack);
+}
+////////////////////////////////////////////////////////////////////////
+
+function drawGreenland(mMatrix){
+    copy = mat4.create(mMatrix);
+
+    copy = mat4.scale(copy,[0.5,0.5,0.5]);
+    
+    lightGreen = [6/255,227/255,127/255,1];
+    darkGreen = [103/255,178/255,49/255,1];
+
+    //draw light green
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0,-1,0]);
+    copy = mat4.scale(copy, [4,2,1]);
+    drawSquare(lightGreen, copy);
+    copy = popMatrix(matrixStack);
+
+    //draw dark green
+    pushMatrix(matrixStack,copy);
+    copy = mat4.translate(copy, [0.8,-1.9,0]);
+    copy = mat4.rotate(copy, degToRad(45), [0, 0, 1]);
+    copy = mat4.scale(copy, [5,4,1]);
+    drawTriangle(darkGreen, copy);
+    copy = popMatrix(matrixStack);
+}
 function drawScene() {
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-    gl.clearColor(0.9, 0.9, 0.8, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  
-    // initialize the model matrix to identity matrix
-    mat4.identity(mMatrix);
-  
-    //// This translation applies to both the objects below
-    // mMatrix = mat4.translate(mMatrix, [0.0, 0.2, 0]);
-  
-    pushMatrix(matrixStack, mMatrix);
-    color = [253/255,76/255,0,1];
-    // //local rotation operation for the square
-    // mMatrix = mat4.rotate(mMatrix, degToRad(20), [0, 0, 1]);
-    // //local scale operation for the square
-    // mMatrix = mat4.scale(mMatrix, [0.5, 1, 1.0]);
-    drawHouse(mMatrix);
-    mMatrix = popMatrix(matrixStack);
-  
-    pushMatrix(matrixStack, mMatrix);
-    // //local translation operation for the circle
-    mMatrix = mat4.translate(mMatrix, [0, 0.0, 0]);
-    // //local scale operation for the circle
-    mMatrix = mat4.scale(mMatrix, [1.0, 1, 1.0]);
-    color = [0.4, 0.9, 0, 1];
-    // drawTriangle(color, mMatrix);
-    mMatrix = popMatrix(matrixStack);
 
-    pushMatrix(matrixStack, mMatrix);
-    // //local translation operation for the circle
-    mMatrix = mat4.translate(mMatrix, [0.5, 0.5, 0]);
-    // //local scale operation for the circle
-    mMatrix = mat4.scale(mMatrix, [0.2, 0.2, 1.0]);
-    color = [0.4, 0.9, 1, 1];
-    // drawCircle(color, mMatrix);
-    mMatrix = popMatrix(matrixStack);
-  }
+    // stop the current loop of animation
+    if (animation) {
+        window.cancelAnimationFrame(animation);
+    }
+
+    var animate = function () {
+        gl.clearColor(0.9, 0.9, 0.8, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        // initialize the model matrix to identity matrix
+        mat4.identity(mMatrix);
+
+        //draw sky
+        pushMatrix(matrixStack, mMatrix);
+        drawSky(mMatrix)
+        mMatrix = popMatrix(matrixStack);
+
+        //draw mountains
+        pushMatrix(matrixStack, mMatrix);
+        mMatrix = mat4.scale(mMatrix, [0.7,0.7,1]);
+        mMatrix = mat4.translate(mMatrix, [-0.9,0.15,0]);
+        drawMountains1(mMatrix);
+        mMatrix = popMatrix(matrixStack);
+
+        // //draw triangle
+        // pushMatrix(matrixStack, mMatrix);
+        // mMatrix = mat4.translate(mMatrix, [-0.5, 0.0, 0.0]);
+        // mMatrix = mat4.rotate(mMatrix, degToRad(degree1), [0.0, 0.0, 1.0]);
+        // mMatrix = mat4.translate(mMatrix, [0.5, 0.0, 0.0]);
+        // pushMatrix(matrixStack, mMatrix);
+        // mMatrix = mat4.translate(mMatrix, [-0.5, 0.0, 0.0]);
+        // mMatrix = mat4.scale(mMatrix, [0.6, 0.6, 1.0]);
+        // color = [0.4, 0.9, 0, 1];
+        // drawTriangle(color, mMatrix);
+        // mMatrix = popMatrix(matrixStack);
+        // mMatrix = popMatrix(matrixStack);
+        // // console.log(degree1)
+        animation = window.requestAnimationFrame(animate);
+    };
+
+    animate();
+}
 
   // This is the entry point from the html
 function webGLStart() {
