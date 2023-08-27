@@ -1,9 +1,13 @@
 var gl;
 var color;
 var animation;
-var windMilldegree1 = 0;
-var windMilldegree2 = 0;
+var sunDegree = 0;
+var windMilldegree = 0;
+var boatDistance = 0;
+var boatDirection = 1;
+var boatSpeed = 0.01;
 var matrixStack = [];
+var mode;
 
 // mMatrix is called the model matrix, transforms objects
 // from local object space to world space.
@@ -23,7 +27,7 @@ uniform mat4 uMMatrix;
 
 void main() {
   gl_Position = uMMatrix*vec4(aPosition,0.0,1.0);
-  gl_PointSize = 10.0;
+  gl_PointSize = 3.0;
 }`;
 
 const fragShaderCode = `#version 300 es
@@ -151,7 +155,7 @@ gl.uniform4fv(uColorLoc, color);
 
 // now draw the square
 gl.drawElements(
-    gl.TRIANGLES,
+    mode,
     sqVertexIndexBuffer.numItems,
     gl.UNSIGNED_SHORT,
     0
@@ -197,7 +201,7 @@ function drawTriangle(color, mMatrix) {
 
     // now draw the square
     gl.drawElements(
-        gl.TRIANGLES,
+        mode,
         triangleIndexBuf.numItems,
         gl.UNSIGNED_SHORT,
         0
@@ -254,7 +258,7 @@ function drawCircle(color, mMatrix){
 
     // now draw the circle
     gl.drawElements(
-        gl.TRIANGLES,
+        mode,
         circleIndexBuf.numItems,
         gl.UNSIGNED_SHORT,
         0
@@ -274,21 +278,22 @@ function drawSun(mMatrix){
 
     //draw rays
     pushMatrix(matrixStack,copy);
+    copy = mat4.rotate(copy, degToRad(0+sunDegree), [0, 0, 1]);
     copy = mat4.scale(copy, [0.05,3,1]);
     drawSquare(sunColor, copy);
     copy = popMatrix(matrixStack);
     pushMatrix(matrixStack,copy);
-    copy = mat4.rotate(copy, degToRad(45), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(45+sunDegree), [0, 0, 1]);
     copy = mat4.scale(copy, [0.05,3,1]);
     drawSquare(sunColor, copy);
     copy = popMatrix(matrixStack);
     pushMatrix(matrixStack,copy);
-    copy = mat4.rotate(copy, degToRad(90), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(90+sunDegree), [0, 0, 1]);
     copy = mat4.scale(copy, [0.05,3,1]);
     drawSquare(sunColor, copy);
     copy = popMatrix(matrixStack);
     pushMatrix(matrixStack,copy);
-    copy = mat4.rotate(copy, degToRad(135), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(135+sunDegree), [0, 0, 1]);
     copy = mat4.scale(copy, [0.05,3,1]);
     drawSquare(sunColor, copy);
     copy = popMatrix(matrixStack);
@@ -446,7 +451,7 @@ function drawWindMill(mMatrix){
     // draw wings
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,0.3,0]);
-    copy = mat4.rotate(copy, degToRad(0), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(0+windMilldegree), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
     copy = mat4.scale(copy, [0.3,1.2,1]);
     copy = mat4.translate(copy, [0,-0.1/1.2,0]);
@@ -455,7 +460,7 @@ function drawWindMill(mMatrix){
 
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,0.3,0]);
-    copy = mat4.rotate(copy, degToRad(90), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(90+windMilldegree), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
     copy = mat4.scale(copy, [0.3,1.2,1]);
     copy = mat4.translate(copy, [0,-0.1/1.2,0]);
@@ -464,7 +469,7 @@ function drawWindMill(mMatrix){
 
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,0.3,0]);
-    copy = mat4.rotate(copy, degToRad(-90), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(-90+windMilldegree), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
     copy = mat4.scale(copy, [0.3,1.2,1]);
     copy = mat4.translate(copy, [0,-0.1/1.2,0]);
@@ -473,7 +478,7 @@ function drawWindMill(mMatrix){
 
     pushMatrix(matrixStack,copy);
     copy = mat4.translate(copy, [0,0.3,0]);
-    copy = mat4.rotate(copy, degToRad(180), [0, 0, 1]);
+    copy = mat4.rotate(copy, degToRad(180+windMilldegree), [0, 0, 1]);
     copy = mat4.translate(copy, [0,-0.3,0]);
     copy = mat4.scale(copy, [0.3,1.2,1]);
     copy = mat4.translate(copy, [0,-0.1/1.2,0]);
@@ -744,8 +749,16 @@ function drawScene() {
     }
 
     var animate = function () {
-        gl.clearColor(0.9, 0.9, 0.8, 1.0);
+        gl.clearColor(1, 1, 1, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        
+        windMilldegree -= 2;
+        sunDegree += 0.5;
+
+        boatDistance += boatDirection*boatSpeed;
+        if(boatDistance >= 1.8 || boatDistance <= -1.8){
+            boatDirection *= -1;
+        }
 
         // initialize the model matrix to identity matrix
         mat4.identity(mMatrix);
@@ -776,14 +789,11 @@ function drawScene() {
 
         //draw greenland
         pushMatrix(matrixStack, mMatrix);
-        // mMatrix = mat4.scale(mMatrix, [0.6,0.6,1]);
-        // mMatrix = mat4.translate(mMatrix, [-1.1,0.15,0]);
         drawGreenland(mMatrix);
         mMatrix = popMatrix(matrixStack);
 
         //draw River
         pushMatrix(matrixStack, mMatrix);
-        // mMatrix = mat4.scale(mMatrix, [0.6,0.6,1]);
         mMatrix = mat4.translate(mMatrix, [0,-0.18,0]);
         drawRiver(mMatrix);
         mMatrix = popMatrix(matrixStack);
@@ -855,7 +865,7 @@ function drawScene() {
         // draw boat
         pushMatrix(matrixStack, mMatrix);
         mMatrix = mat4.scale(mMatrix, [0.4,0.4,1]);
-        mMatrix = mat4.translate(mMatrix, [-0.9,-0.38,0]);
+        mMatrix = mat4.translate(mMatrix, [boatDistance,-0.38,0]);
         drawBoat(mMatrix);
         mMatrix = popMatrix(matrixStack);
 
@@ -914,19 +924,6 @@ function drawScene() {
         mMatrix = mat4.translate(mMatrix, [-1.2,-1.85,0]);
         drawCar(mMatrix);
         mMatrix = popMatrix(matrixStack);
-        // //draw triangle
-        // pushMatrix(matrixStack, mMatrix);
-        // mMatrix = mat4.translate(mMatrix, [-0.5, 0.0, 0.0]);
-        // mMatrix = mat4.rotate(mMatrix, degToRad(degree1), [0.0, 0.0, 1.0]);
-        // mMatrix = mat4.translate(mMatrix, [0.5, 0.0, 0.0]);
-        // pushMatrix(matrixStack, mMatrix);
-        // mMatrix = mat4.translate(mMatrix, [-0.5, 0.0, 0.0]);
-        // mMatrix = mat4.scale(mMatrix, [0.6, 0.6, 1.0]);
-        // color = [0.4, 0.9, 0, 1];
-        // drawTriangle(color, mMatrix);
-        // mMatrix = popMatrix(matrixStack);
-        // mMatrix = popMatrix(matrixStack);
-        // // console.log(degree1)
         animation = window.requestAnimationFrame(animate);
     };
 
@@ -953,5 +950,9 @@ function webGLStart() {
     initTriangleBuffer();
     initCircleBuffer()
     drawScene();
+  }
+
+  function changeDrawMode(param) {
+    mode = param;
   }
   

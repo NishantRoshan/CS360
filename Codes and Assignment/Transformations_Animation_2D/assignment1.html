@@ -15,5 +15,10 @@
       width="800"
       height="800"
     ></canvas>
+    <h4>Change Draw Mode:</h4>
+    <!-- changeBGColor() is the callback function for the button press event with some color value passed to JS as parameter -->
+    <button onclick="changeDrawMode(gl.POINTS)">Point View</button>
+    <button onclick="changeDrawMode(gl.LINE_LOOP)">Wireframe View</button>
+    <button onclick="changeDrawMode(gl.TRIANGLES)">Solid View</button>
   </body>
 </html>
