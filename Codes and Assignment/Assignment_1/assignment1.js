@@ -20,6 +20,7 @@ var circleBuf;
 var circleIndexBuf;
 var sqVertexPositionBuffer;
 var sqVertexIndexBuffer;
+var sqTextCBuffer;
 
 const vertexShaderCode = `#version 300 es
 in vec2 aPosition;
@@ -132,6 +133,14 @@ function initSquareBuffer() {
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, sqIndices, gl.STATIC_DRAW);
     sqVertexIndexBuffer.itemsize = 1;
     sqVertexIndexBuffer.numItems = 6;
+
+    // buffer for point indices
+    const sqTextC = new Uint16Array([1, 1, 0, 1, 0, 0, 1, 0]);
+    sqTextCBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sqTextCBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, sqIndices, gl.STATIC_DRAW);
+    sqTextCBuffer.itemsize = 2;
+    sqTextCBuffer.numItems = 4;
 }
   
 function drawSquare(color, mMatrix) {
